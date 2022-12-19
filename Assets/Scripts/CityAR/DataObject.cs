@@ -30,7 +30,7 @@ namespace DefaultNamespace
         public float z;
         public float w;
         public float h;
-        public int deepth;
+        public int depth;
         public GridObjectCollection goc;
         public Entry parentEntry;
         public Color color;

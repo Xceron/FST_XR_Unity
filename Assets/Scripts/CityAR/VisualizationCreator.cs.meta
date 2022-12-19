@@ -1,3 +1,13 @@
 fileFormatVersion: 2
 guid: 390c293a25cb47bf8bb5ab6832a006b7
-timeCreated: 1670493713
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - districtPrefab: {fileID: 4492622769918400404, guid: 6ee7b1065cf15dd459b53be25719f81c, type: 3}
+  - buildingPrefab: {fileID: 9017718010502082466, guid: 3c85e8e5d02ccec46a1e160c84d4a31b, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

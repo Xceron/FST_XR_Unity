@@ -292,6 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   districtPrefab: {fileID: 4492622769918400404, guid: 6ee7b1065cf15dd459b53be25719f81c, type: 3}
+  buildingPrefab: {fileID: 9017718010502082466, guid: 3c85e8e5d02ccec46a1e160c84d4a31b, type: 3}
 --- !u!114 &854638688
 MonoBehaviour:
   m_ObjectHideFlags: 0
