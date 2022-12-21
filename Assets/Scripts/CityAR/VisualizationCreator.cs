@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DefaultNamespace;
+using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,6 +12,7 @@ namespace CityAR
     {
         public GameObject districtPrefab;
         public GameObject buildingPrefab;
+        public GameObject tooltipPrefab;
         private DataObject _dataObject;
         private GameObject _platform;
         private Data _data;
@@ -65,7 +67,7 @@ namespace CityAR
 
                     if (subEntry.type.Equals("Dir"))
                     {
-                        float ratio = subEntry.numberOfLines / dirLocs;
+                        var ratio = subEntry.numberOfLines / dirLocs;
                         subEntry.depth = entry.depth + 1;
 
                         if (splitHorizontal)
@@ -119,16 +121,36 @@ namespace CityAR
         private void BuildBuilding(Entry entry)
         {
             var buildingFabInstance = Instantiate(buildingPrefab, _platform.transform, true);
-            if (entry.name.Equals("AssetLoader.java"))
-            {
-                print("AssetLoader.java");
-                // buildingFabInstance.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
-            }
+            // print entry numberOfLines, numberOfMethods, numberOfAbstractClasses, numberOfInterfaces
             buildingFabInstance.name = entry.name;
             var scale = new Vector3(entry.w, entry.numberOfLines * 0.1f,entry.h);
             var scaleX = scale.x - (entry.depth * 0.005f);
             var scaleZ = scale.z - (entry.depth * 0.005f);
             buildingFabInstance.transform.localScale = new Vector3(scaleX, scale.y, scaleZ);
+            BuildToolTip(entry, buildingFabInstance); }
+
+        private void BuildToolTip(Entry entry, GameObject buildingFabInstance)
+        {
+            var tooltipFabInstance = Instantiate(tooltipPrefab, buildingFabInstance.transform, true);
+            var toolTip = tooltipFabInstance.GetComponent<ToolTip>();
+            toolTip.name = buildingFabInstance.name  + "(" + entry.numberOfLines + ";" + entry.numberOfMethods + ";" + entry.numberOfAbstractClasses + ";" +
+                           entry.numberOfInterfaces + ")"+ " Tooltip";
+            toolTip.ToolTipText = "LoC: " + entry.numberOfLines;
+            var toolTipConnector = tooltipFabInstance.GetComponent<ToolTipConnector>();
+            var simpleLineDataProvider = tooltipFabInstance.GetComponent<SimpleLineDataProvider>();
+            toolTipConnector.Target = buildingFabInstance;
+            toolTip.enabled = false;
+            toolTipConnector.enabled = false;
+            simpleLineDataProvider.enabled = false;
+        }
+
+        public void ShowTooltip()
+        {
+            var tooltipFabInstance = Instantiate(tooltipPrefab, gameObject.transform, true);
+            var toolTip = tooltipFabInstance.GetComponent<ToolTip>();
+            toolTip.ToolTipText = "numberOfLines: " + 1;
+            var toolTipConnector = tooltipFabInstance.GetComponent<ToolTipConnector>();
+            toolTipConnector.Target = gameObject;
         }
 
         /*
@@ -204,7 +226,7 @@ namespace CityAR
 
         private static Color GetColorForDepth(int depth)
         {
-            Color color = depth switch
+            var color = depth switch
             {
                 1 => new Color(179f / 255f, 209f / 255f, 255f / 255f),
                 2 => new Color(128f / 255f, 179f / 255f, 255f / 255f),
